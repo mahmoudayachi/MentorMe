@@ -1,0 +1,59 @@
+.container{
+    margin: auto;
+    width: 60%;
+    height: 50vh;
+    display: block;
+}
+.container label {
+    display: block;
+    margin-top:0.8rem;
+}
+
+.warning{
+margin-top: 1rem;
+background-color: #ebf5ff;
+color:  #224fb6;
+}
+.input{
+    width: 40%;
+    padding: 0.5rem;
+    border-radius: 10px;
+    border-style: none;
+    border: 1px solid grey;
+}
+.signup-btn{
+    width: 20%;
+    border-radius: 10px;
+    background-color: #611f69;
+    color: white;
+    border-style: none;
+    padding: 0.5rem;
+    cursor: pointer;
+}
+
+.input-warning-message{
+    color: red; 
+    font-size: small;
+}
+.category-select{
+    width: 40%;
+    padding: 0.5rem;
+    border-radius: 10px;
+    border-style: none;
+    border: 1px solid grey;
+}
+.bio-input{
+    height: 80px;
+    width: 40%;
+    padding: 0.5rem;
+    border-radius: 10px;
+    border-style: none;
+    border: 1px solid grey;
+}
+.country-selector{
+    width: 40%;
+    padding: 0.5rem;
+    border-radius: 10px;
+    border-style: none;
+    border: 1px solid grey;
+}

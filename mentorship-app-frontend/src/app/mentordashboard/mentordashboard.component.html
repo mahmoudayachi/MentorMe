@@ -1,0 +1,40 @@
+<div class="side-menu">
+  <div class="container">
+  <span>Mentor dahsboard </span>
+  <span>Modify profile</span>
+  <span><a  routerLink="/search" href="/search" routerLinkActive="active">Mentees</a></span>
+  <button >Mentorshiprequest</button>
+  </div>
+  <button>Logout</button>
+</div>
+
+
+    <table *ngIf="mentorrequestclicked" style="margin: auto; ">
+<thead>
+    <tr style="text-align: center;margin: 1rem;">
+        <th scope="col">  id</th>
+        <th scope="col" >  firstname</th>
+        <th>  lastname</th>
+        <th> date of send </th>
+        <th> status </th>
+        <th>request message</th>
+    </tr>
+</thead>
+<tbody>    
+    @for( request of  listofrequest; track request.id){
+    <tr>
+        <td>{{request.id}}</td>
+        <td>{{request.mentee.firstname}}</td>
+        <td>{{request.mentee.lastname}}</td>
+        <td>{{request.createdAt}}</td>
+         <td>{{request.status}}</td>
+         <td>{{request.message}}</td>
+
+    </tr>
+ 
+}
+</tbody>
+</table>
+
+
+

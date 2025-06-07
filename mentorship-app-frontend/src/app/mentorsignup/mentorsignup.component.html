@@ -1,0 +1,103 @@
+<div class="container">  
+    <span>Apply  as a mentor </span>
+
+    <p class="warning">Warning ! you won't be able to login until Admins verify your account you will receive an email once your account is approved</p>
+    <mat-stepper [linear]="isLinear" #stepper>
+      <mat-step [stepControl]="firstFormGroup">
+        <form [formGroup]="firstFormGroup">
+          <ng-template matStepLabel>About you</ng-template>
+             <p>upload profile image </p>
+             
+
+             <input type="file"  name="image"  accept="image/*" (change)="onSelect($event)" >
+       
+            <label>Firstname</label>
+            <input  type="text" class="input" placeholder="firstname" formControlName="firstname" required>
+            <br> 
+            <p class="input-warning-message" *ngIf="firstFormGroup.controls['firstname'].invalid && firstFormGroup.controls['firstname'].touched"> this field must not be empty</p>
+            <br> 
+            <label>Lastname</label>
+            <input type="text"  class="input" placeholder="lastname" formControlName="lastname" required>
+            <br>
+            <p class="input-warning-message" *ngIf="firstFormGroup.controls['lastname'].invalid && firstFormGroup.controls['lastname'].touched"> this field must not be empty</p>
+            <br> 
+            <label>Email</label>
+            <input type="email" class="input" placeholder="email" formControlName="email" required>
+            <br>
+            <p class="input-warning-message" *ngIf="firstFormGroup.controls['email'].invalid && firstFormGroup.controls['email'].touched"> this field must not be empty</p>
+            <br> 
+            <label>Password</label>
+            <input  type="password" class="input" placeholder="password " formControlName="password" required>
+            <br>
+            <p class="input-warning-message" *ngIf="firstFormGroup.controls['password'].invalid && firstFormGroup.controls['password'].touched"> this field must not be empty</p>
+            <br> 
+            <label>Country</label>
+            <select class="country-selector" formControlName="location"  (change)="onCountryChange($event)">
+              <option value="" disabled style="color: grey;">Select a country</option>
+              <option *ngFor="let country of countries" [value]="country">
+                {{ country }}
+              </option>
+            </select>
+            <p class="input-warning-message" *ngIf="firstFormGroup.controls['location'].invalid && firstFormGroup.controls['location'].touched"> this field must not be empty</p>
+            <br>
+            <br> 
+         
+          <div>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="firstFormGroup" label="your profile">
+        <form [formGroup]="firstFormGroup">
+           <label>Jobtitle</label>
+            <input  class="input" formControlName="jobtitle" placeholder="jobtitle"  required>
+                   <br>
+            <p class="input-warning-message" *ngIf="firstFormGroup.controls['jobtitle'].invalid && firstFormGroup.controls['jobtitle'].touched"> this field must not be empty</p>
+                   <br> 
+            <label>biography</label>
+           <input class="bio-input" type="text"  formControlName="bio" placeholder="biography"  required>
+                   <br>
+            <p class="input-warning-message" *ngIf="firstFormGroup.controls['bio'].invalid && firstFormGroup.controls['bio'].touched"> this field must not be empty</p>    
+                   <br> 
+            <label>Category</label>
+            <select  formControlName="category" class="category-select" aria-placeholder="select a category" name="selector" id="selector" (change)="onSelectcategory($event)" required>
+                    <option  style="font-weight: 200;" value="">select a category </option>
+                    <option value="Engineering" >Engineering</option>
+                    <option value="startup">startup</option>
+                    <option value="Design">Design</option>
+                    <option value="Marketing">Marketing</option>
+                    <option value="Leadership">Leadership</option>
+                </select>
+                   <br>
+            <p class="input-warning-message" *ngIf="firstFormGroup.controls['category'].invalid && firstFormGroup.controls['category'].touched"> this field must not be empty</p>
+                   <br> 
+          <label>Linkedin</label>
+          <input  class="input" formControlName="linkedinlink" placeholder="your linkedin profile link" (change)="validation($event)"  required>
+            <br>
+            <p class="input-warning-message" *ngIf="firstFormGroup.controls['linkedinlink'].invalid && firstFormGroup.controls['linkedinlink'].touched"> this field must not be empty</p>
+            <br>
+          <label>Skills</label>
+          <input  class="input" formControlName="skills" placeholder="skills"  required>
+          <br>
+          <p class="input-warning-message" *ngIf="firstFormGroup.controls['skills'].invalid && firstFormGroup.controls['skills'].touched"> this field must not be empty</p>
+          <br>
+          <label>Company</label>
+          <input  class="input" formControlName="company" placeholder="company"  required>
+          <p class="input-warning-message" *ngIf="firstFormGroup.controls['company'].invalid && firstFormGroup.controls['company'].touched"> this field must not be empty</p>
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>submit</ng-template>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button (click)="stepper.reset()">Reset</button>
+          <button  class="signup-btn" (click)=" onsubmit()">signup</button>
+        </div>
+      </mat-step>
+    </mat-stepper>
+</div>
+

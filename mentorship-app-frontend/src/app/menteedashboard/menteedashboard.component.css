@@ -1,0 +1,25 @@
+.side-menu{
+width:15%;
+height: 100vh;
+background-color: #611f69 ;
+color: white;
+padding: 1rem;
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+text-align: center;
+position: absolute;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 4rem;
+}
+
+a{
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+}

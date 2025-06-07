@@ -1,0 +1,55 @@
+<div class="search-container">
+  <form  [formGroup]="searchform" class="input-container"  >
+    <label>Category</label>
+    <input class="search-input" formControlName="category" name="category"  type="search" placeholder="category">
+     <div class="checkbox-container"><input type="checkbox"><label>Engineering</label></div>  
+     <div class="checkbox-container"  ><input type="checkbox"><label>Design</label></div>  
+     <div class="checkbox-container" ><input type="checkbox"><label>Marketing</label></div>  
+     <div class="checkbox-container"  ><input type="checkbox"><label>Startup</label></div>  
+     <div class="checkbox-container" ><input type="checkbox"><label>Leadership</label></div> 
+    <label  style="margin-top: 1rem;">skills</label>
+    <input class="search-input"  formControlName="skills" name="skills" form type="search" placeholder="search by skill ">
+     <div class="checkbox-container"><input type="checkbox" value="java" (change)="onCheckboxChange($event)">Java</div>  
+     <div class="checkbox-container"  ><input type="checkbox" value="Springboot" (change)="onCheckboxChange($event)" ><label>Springboot</label></div>  
+     <div class="checkbox-container" ><input type="checkbox" value="angular"  (change)="onCheckboxChange($event)" ><label>Angular</label></div>  
+     <div class="checkbox-container"  ><input type="checkbox" value="react" (change)="onCheckboxChange($event)" ><label>React</label></div>  
+     <div class="checkbox-container" ><input type="checkbox" value="Javascript" (change)="onCheckboxChange($event)"><label>Javascript</label></div> 
+    <label  style="margin-top: 1rem;">jobtitle</label>
+    <input class="search-input"  formControlName="jobtitle" name="jobtitle" type="search" placeholder="search by job title">
+    <div class="checkbox-container"><input type="checkbox" value="web developer" (change)=" onCheckboxjobChange($event)" ><label>web developer</label></div>  
+     <div class="checkbox-container"  ><input type="checkbox" value="software engineer" (change)=" onCheckboxjobChange($event)" ><label>software engineer</label></div>  
+     <div class="checkbox-container" ><input type="checkbox" value ="scrum master" (change)=" onCheckboxjobChange($event)" ><label>Scrum master </label></div>  
+     <div class="checkbox-container"  ><input type="checkbox" value="Data analyst" (change)=" onCheckboxjobChange($event)" ><label>Data analyst</label></div>  
+     <div class="checkbox-container" ><input type="checkbox" value="ui/ux design" (change)=" onCheckboxjobChange($event)" ><label>Ui/Ux designer</label></div>  
+    <label style="margin-top: 1rem;">company</label>
+    <input class="search-input"  formControlName="company" name="company" type="search" placeholder="search by company">
+     <div class="checkbox-container"><input type="checkbox" value="ibm" (change)=" onCheckboxcompanyChange($event)"><label>Ibm</label></div>  
+     <div class="checkbox-container"  ><input type="checkbox" value="microsoft" (change)=" onCheckboxcompanyChange($event)"  ><label>Microsoft</label></div>  
+     <div class="checkbox-container" ><input type="checkbox" value="netflix" (change)=" onCheckboxcompanyChange($event)" ><label>Netflix</label></div>  
+     <div class="checkbox-container"  ><input type="checkbox" value="vermeg" (change)=" onCheckboxcompanyChange($event)" ><label>Vermeg</label></div>  
+     <div class="checkbox-container" ><input type="checkbox" value="sofrecom" (change)=" onCheckboxcompanyChange($event)" ><label>sofrecom</label></div>  
+      <button style="margin-top: 1rem;"  (click)=" onsubmit()" class="search-btn"(change)=" onCheckboxcompanyChange($event)" >search</button>
+   
+ </form>
+
+    <div class="cards-container">
+     @for(mentor of listofmentor;track mentor.id){
+      <div class="card">
+         <div class="image-container">
+           <img class="profile-image" src="http://localhost:8080/api/auth/{{mentor.profileimage}}">
+        </div>
+       <div class="info-container">
+        <h3>{{mentor.firstname}}   {{mentor.lastname}}</h3>
+        <div><span ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M184 48l144 0c4.4 0 8 3.6 8 8l0 40L176 96l0-40c0-4.4 3.6-8 8-8zm-56 8l0 40L64 96C28.7 96 0 124.7 0 160l0 96 192 0 128 0 192 0 0-96c0-35.3-28.7-64-64-64l-64 0 0-40c0-30.9-25.1-56-56-56L184 0c-30.9 0-56 25.1-56 56zM512 288l-192 0 0 32c0 17.7-14.3 32-32 32l-64 0c-17.7 0-32-14.3-32-32l0-32L0 288 0 416c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-128z"/></svg>{{mentor.jobtitle}} at <b>{{mentor.company}}</b></span></div>      
+          <p>{{mentor.bio}}</p>
+        <div class="field">{{mentor.skills}}</div>  
+        <span>{{mentor.category}}</span>
+         <button   class="search-btn" (click)="viewProfile(mentor.id)">view profile</button>  
+        </div>
+       
+       
+       
+      </div>
+     }
+   
+    </div>

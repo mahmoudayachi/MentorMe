@@ -1,0 +1,118 @@
+.search-container{
+    width: 80%;
+    height: 100vh;
+    display: flex;
+    justify-content: space-between;
+     margin: auto;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.input-container{
+    width: 40%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items:baseline;
+    
+  
+}
+.input-container>label{
+    align-self: first baseline;
+}
+
+.cards-container{
+    width: 60%;
+    height: 80%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: auto;
+    
+ 
+}
+.card{
+width: 100%;
+height: 60%;
+border: 1px solid rgb(194, 193, 193);
+border-radius: 10px;
+display: flex;
+align-items: center;
+justify-content: space-evenly;
+flex-wrap: wrap;
+object-fit: contain;    
+margin: 0.5rem;
+}
+.image-container{
+    width: 20%;
+    height: 80%;
+    background-color: white;
+    text-align: center;
+}
+.checkbox-container{
+    font-size:0.9rem;
+    margin: 0.45rem;
+}
+
+.checkbox-container>label{
+    margin-left: 0.5rem;
+}
+.info-container{
+margin-top: 2rem;
+width: 60%;
+height: 100%;
+background-color: transparent;
+display: flex;
+flex-direction: column;
+align-items: self-start;
+ gap: 1rem;
+}
+.search-input{
+width: 70%;
+padding: 0.5rem;
+border-radius: 6px;
+border-style: none;
+margin-left: 1rem;
+margin-bottom: 1rem;
+border: 1px solid grey;
+}
+.search-btn{
+ width: 70%;
+ background-color: #611f69;
+ color: white;
+ border-style: none;
+ padding: 0.5rem;
+ border-radius: 6px;
+ cursor: pointer;
+ margin-top: 1.5rem;
+}
+
+.profile-image{
+    width: 90%;
+    height: 60%;
+    border-radius: 20px;
+}
+
+.field{
+    background-color: rgba(217, 217, 217, 0.5);
+    border-radius: 10px;
+    height: 30px;
+    text-align:center ;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 0.3rem;
+}
+svg{
+    width: 15px;
+    height: 15px;
+    margin-right: 0.5rem;
+    margin-top: 0.5rem;
+   fill: #611f69;
+}
+p{
+    font-size: 0.875rem;
+}
+h3{
+font-weight: 500;
+}

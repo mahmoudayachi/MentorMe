@@ -1,0 +1,11 @@
+<form [formGroup] ="adminloginform">
+    <div class="form-container">
+     <span>ADMIN PORTAL</span>
+     <input type="email" formControlName="email" name="email" placeholder="email" required >
+     <p class="input-warning-message" *ngIf="adminloginform.controls['email'].invalid && adminloginform.controls['email'].touched"> this field must not be empty</p>
+     <input type="password" formControlName="password" name="password" placeholder="password" required >
+     <p class="input-warning-message" *ngIf="adminloginform.controls['password'].invalid && adminloginform.controls['password'].touched"> this field must not be empty</p>
+     <button type="submit" class="Login-btn" (click)="Onsubmit()" >Login</button>
+    </div>
+
+</form>

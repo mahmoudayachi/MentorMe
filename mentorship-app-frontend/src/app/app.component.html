@@ -1,0 +1,39 @@
+<nav  >
+    <span class="title"><a style="color:white; text-decoration: none;" routerLink="/home" href="/home" routerLinkActive="active">Mentorme</a>
+    </span>
+    <div class="btns-container" *ngIf="!ismentorlogedin() && !ismenteelogedin()" >
+        <button class="Login-btn" (click)="redirect()"   routerLink="/login" routerLinkActive="active">Login</button>
+    </div>
+    <div class="btns-container" *ngIf="ismentorlogedin() || ismenteelogedin()">
+        <button class="Login-btn" (click)="redirect()"   routerLink="/login" routerLinkActive="active">Logout</button>
+
+    </div>
+
+    <div class="hamburger-menu" >
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+  
+  
+   
+</nav>
+
+<div class="dropdown-menu"  >
+    <span>Find a mentor</span>
+    <button class="dropdown-btn" (click)="redirect()"   routerLink="/login" routerLinkActive="active" >Login</button>
+</div>
+
+<div  class="mentors-categories" *ngIf="!ismentorlogedin()  && !isAdminloggedin()" >
+    <div><a href="/search" class="categories-links">Engineering Mentors</a></div>
+    <div><a href="/search" class="categories-links">Design Mentors</a></div>
+    <div><a href="/search" class="categories-links">Startup Mentors</a></div>
+    <div><a href="/search" class="categories-links">Marketing  Mentors</a></div>
+    <div><a href="/search" class="categories-links">Top  Mentors</a></div>
+   
+</div>
+
+<div class="line"></div>
+
+
+<router-outlet></router-outlet>

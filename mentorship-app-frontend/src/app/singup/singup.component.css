@@ -1,0 +1,55 @@
+.form-container{
+margin: auto;
+width: 25%;
+height: 50vh;
+display: block;
+padding: 2rem;
+align-items:center;
+    }
+    
+.form-container>input{
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 10px;
+    border-style: none;
+    border: 1px solid grey;
+    margin-top: 0.5rem;
+}
+    
+.form-container label{
+    display: block;
+}
+
+.form-container span{
+    display: block;
+    text-align: center;
+    margin-top: 1rem;
+}
+.form-container>input.focus{
+ border-inline-color:rgb(0, 157, 255) ;
+ }
+.singup-btn{
+margin-top: 1rem;
+ width: 100%;
+ border-radius: 10px;
+ background-color: #611f69;
+ color: white;
+ border-style: none;
+ padding: 0.5rem;
+ cursor: pointer;
+ }
+
+.google-btn{
+ width: 100%;
+ border-radius: 10px;
+ background-color: white;
+ border-style: none;
+ border: 1px solid grey;
+ padding: 0.5rem;
+ cursor: pointer;
+    }
+
+    .input-warning-message{
+        color: red;
+        font-size: small;
+    }

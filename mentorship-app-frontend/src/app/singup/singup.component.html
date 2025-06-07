@@ -1,0 +1,24 @@
+<form [formGroup] ="signupform">    
+    <div class="form-container">
+     <span>Signup as mentee</span>
+     <label>Firstname</label>
+     <input type="firstname" formControlName="firstname" name="firstname" placeholder="firstname" required >
+     <p class="input-warning-message" *ngIf="signupform.controls['firstname'].invalid && signupform.controls['firstname'].touched"> this field must not be empty</p>
+     <label>Lastname</label>
+     <input type="lastname" formControlName="lastname" name="lastname" placeholder="lastname" required >
+     <p class="input-warning-message" *ngIf="signupform.controls['lastname'].invalid && signupform.controls['lastname'].touched"> this field must not be empty</p>
+     <label>Email</label>
+     <input type="email" formControlName="email" name="email" placeholder="email" required >
+     <p class="input-warning-message" *ngIf="signupform.controls['email'].invalid && signupform.controls['email'].touched"> this field must not be empty</p>   
+     <label>Password</label>
+     <input type="password" formControlName="password" name="password" placeholder="password" required >
+     <p class="input-warning-message" *ngIf="signupform.controls['password'].invalid && signupform.controls['password'].touched"> this field must not be empty</p>
+     <button type="submit" class="singup-btn"  (click)="OnSubmit()"   >singup</button>
+     <span>or</span>
+     <button class="google-btn">singup  with google</button>
+     <span>Already  have an account ? <a href="/login">Login </a></span>
+     <span>Apply to be mentor  <a href="/mentorsignup">Apply now  </a></span>
+    </div>
+     
+</form>
+

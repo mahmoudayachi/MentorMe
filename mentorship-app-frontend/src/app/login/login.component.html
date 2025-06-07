@@ -1,0 +1,40 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+        <form  class="form"    [formGroup] ="loginform">
+          <div class="form-container">
+          <span>Login to your account</span>
+          <label>Email</label>
+          <input type="email" formControlName="email" name="email" placeholder="email" required >
+          <p class="input-warning-message" *ngIf="loginform.controls['email'].invalid && loginform.controls['email'].touched"> this field must not be empty</p>
+          <label>password</label>
+         <input type="password" formControlName="password" name="password" placeholder="password" required >
+         <p class="input-warning-message" *ngIf="loginform.controls['password'].invalid && loginform.controls['password'].touched"> this field must not be empty</p>
+         <div class="select-input">
+            <label>Account type</label>
+         <select   name="selector" id="selector" (change)="onSelect($event)" required>
+            <option value="select a type">select a type</option>
+            <option value="MENTOR">mentor</option>
+            <option value="MENTEE">mentee</option>
+         </select>
+         </div>
+         <button type="submit" class="Login-btn"  (click)="onsubmit()" >Login</button>
+         <div class="line"></div>
+         <span>or</span>
+         <button class="google-btn" > continue with google</button>
+         
+         <span>forgot password ?</span>
+         <span>don't have an account ?<a href="/signup">signup </a></span>
+        </div>
+      </form>
+    
+    
+</body>
+</html>
+ 

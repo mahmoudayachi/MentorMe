@@ -61,11 +61,11 @@ public class ZoomService {
         headers.setBearerAuth(token);
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        // Format start time for Zoom (ISO-8601 with timezone)
+        
         ZonedDateTime start = period.getStartTime().atZone(ZoneId.systemDefault());
         String startTimeFormatted = start.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
 
-        // Prepare request body
+    
         Map<String, Object> request = new HashMap<>();
         request.put("topic", "Mentoring: " + period.getSession().getName());
         request.put("type", 2); // Scheduled meeting
@@ -74,7 +74,7 @@ public class ZoomService {
         request.put("timezone", start.getZone().toString());
         request.put("agenda", "Mentoring session between mentor and mentee.");
 
-        // Optional settings
+      
         Map<String, Object> settings = new HashMap<>();
         settings.put("host_video", true);
         settings.put("participant_video", true);

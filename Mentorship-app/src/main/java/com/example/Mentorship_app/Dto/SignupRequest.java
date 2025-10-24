@@ -2,8 +2,8 @@ package com.example.Mentorship_app.Dto;
 
 import com.example.Mentorship_app.Enums.UserRole;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+
+import java.util.List;
 
 @Data
 public class SignupRequest {
@@ -11,21 +11,32 @@ public class SignupRequest {
     private String lastname;
     private String email;
     private String password;
-    private String skills;
+    private List<String> skills;
     private String company;
     private String category;
     private String jobtitle;
     private String bio;
     private String linkedinlink;
     private String objectif;
+    private String location;
     private UserRole userrole;
     private String profileimage;
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
     public String getLinkedinlink() {
+
         return linkedinlink;
     }
 
     public void setLinkedinlink(String linkedinlink) {
+
         this.linkedinlink = linkedinlink;
     }
 
@@ -85,11 +96,11 @@ public class SignupRequest {
         this.password = password;
     }
 
-    public String getSkills() {
+    public List<String> getSkills() {
         return skills;
     }
 
-    public void setSkills(String skills) {
+    public void setSkills(List<String> skills) {
         this.skills = skills;
     }
 
@@ -114,6 +125,7 @@ public class SignupRequest {
     }
 
     public void setJobtitle(String jobtitle) {
+
         this.jobtitle = jobtitle;
     }
 

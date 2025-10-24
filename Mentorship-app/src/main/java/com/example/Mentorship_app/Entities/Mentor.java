@@ -12,19 +12,25 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 @Entity
 public class Mentor extends User  {
 
-    private String skills;
+    @ElementCollection
+    @CollectionTable(name = "mentor_skills", joinColumns = @JoinColumn(name = "mentor_id"))
+    @Column(name = "skill")
+    @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
+    private List<String> skills = new ArrayList<>();
     private String company;
     private String category;
     private String jobtitle;
     private String bio;
     private String profileimage;
     private String linkedinlink;
+
 
     public String getLinkedinlink() {
         return linkedinlink;
@@ -53,11 +59,11 @@ public class Mentor extends User  {
         this.profileimage = profileimage;
     }
 
-    public String getSkills() {
+    public List<String> getSkills() {
         return skills;
     }
 
-    public void setSkills(String skills) {
+    public void setSkills(List<String> skills) {
         this.skills = skills;
     }
 
@@ -98,7 +104,7 @@ public class Mentor extends User  {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(super.getUserRole().name()));
+        return List.of(new SimpleGrantedAuthority(UserRole.MENTOR.name()));
     }
 
     @Override
@@ -133,21 +139,21 @@ public class Mentor extends User  {
 
 
     public MentorDto getMentorDto(){
-       MentorDto mentorDto = new MentorDto();
-       mentorDto.setId(super.getId());
-       mentorDto.setFirstname(super.getFirstname());
-       mentorDto.setLastname(super.getLastname());
-       mentorDto.setPassword(super.getPassword());
-       mentorDto.setEmail(super.getEmail());
-       mentorDto.setBio(bio);
-       mentorDto.setCategory(category);
-       mentorDto.setJobtitle(jobtitle);
-       mentorDto.setSkills(skills);
-       mentorDto.setCompany(company);
-       mentorDto.setUserRole(super.getUserRole());
-       mentorDto.setLocation(super.getLocation());
-       mentorDto.setImage(profileimage);
-       mentorDto.setAccountStatus(accountstatus);
-       return mentorDto;
+        MentorDto mentorDto = new MentorDto();
+        mentorDto.setId(super.getId());
+        mentorDto.setFirstname(super.getFirstname());
+        mentorDto.setLastname(super.getLastname());
+        mentorDto.setPassword(super.getPassword());
+        mentorDto.setEmail(super.getEmail());
+        mentorDto.setBio(bio);
+        mentorDto.setCategory(category);
+        mentorDto.setJobtitle(jobtitle);
+        mentorDto.setSkills(skills);
+        mentorDto.setCompany(company);
+        mentorDto.setUserRole(super.getUserRole());
+        mentorDto.setLocation(super.getLocation());
+        mentorDto.setImage(profileimage);
+        mentorDto.setAccountStatus(accountstatus);
+        return mentorDto;
     }
 }

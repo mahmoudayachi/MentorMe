@@ -50,22 +50,7 @@ public class AuthServiceImpl implements AuthService{
     }
 
 
-    @Override
-    public MentorDto signupUser(SignupRequest signupRequest)  {
-        Mentor mentor= new Mentor();
-        mentor.setFirstname(signupRequest.getFirstname());
-        mentor.setLastname(signupRequest.getLastname());
-        mentor.setEmail(signupRequest.getEmail());
-        mentor.setPassword(new BCryptPasswordEncoder().encode(signupRequest.getPassword()));
-        mentor.setJobtitle(signupRequest.getJobtitle());
-        mentor.setBio(signupRequest.getBio());
-        mentor.setCompany(signupRequest.getCompany());
-        mentor.setSkills(signupRequest.getSkills());
-        mentor.setUserRole(signupRequest.getUserrole());
-         Mentor   createdmentor = mentorRepository.save(mentor);
-         return createdmentor.getMentorDto();
 
-    }
 
     @Override
     public MentorDto signupMentor(SignupRequest signupRequest ){
@@ -77,12 +62,16 @@ public class AuthServiceImpl implements AuthService{
         mentor.setJobtitle(signupRequest.getJobtitle());
         mentor.setBio(signupRequest.getBio());
         mentor.setCompany(signupRequest.getCompany());
+        mentor.setLocation(signupRequest.getLocation());
+        mentor.setLinkedinlink(signupRequest.getLinkedinlink());
+        mentor.setCategory(signupRequest.getCategory());
         mentor.setSkills(signupRequest.getSkills());
         mentor.setProfileimage(signupRequest.getProfileimage());
         mentor.setUserRole(signupRequest.getUserrole());
         Mentor   createdmentor = mentorRepository.save(mentor);
        return createdmentor.getMentorDto();
     }
+
 
     @Override
     public MenteeDto signupMentee(SignupRequest signupRequest) {

@@ -5,15 +5,34 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class Session {
+public class SessionDTO {
     private Long id;
     private String name;
     private Double price;
+    private String description;
     private String status;
     private LocalDateTime scheduledAt;
+    private Integer durationMinutes;
     private String mentorName;
     private Long mentorId;
+    private String menteeName;
     private Long menteeId;
+
+    public SessionDTO(Long id, String name, Double price, String description,
+                      String status, LocalDateTime scheduledAt, Integer durationMinutes,
+                      String mentorName, Long mentorId, String menteeName, Long menteeId) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.status = status;
+        this.scheduledAt = scheduledAt;
+        this.durationMinutes = durationMinutes;
+        this.mentorName = mentorName;
+        this.mentorId = mentorId;
+        this.menteeName = menteeName;
+        this.menteeId = menteeId;
+    }
 
     public Long getId() {
         return id;

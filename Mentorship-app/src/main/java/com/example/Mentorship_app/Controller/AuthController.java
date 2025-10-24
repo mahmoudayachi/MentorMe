@@ -9,6 +9,7 @@ import com.example.Mentorship_app.Repositories.MenteeRepository;
 import com.example.Mentorship_app.Repositories.MentorRepository;
 import com.example.Mentorship_app.Services.jwt.AuthService;
 import com.example.Mentorship_app.Services.jwt.ComposedDetailsService;
+import com.example.Mentorship_app.Services.jwt.MentorService;
 import com.example.Mentorship_app.Utils.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -26,6 +27,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -43,11 +46,11 @@ public class AuthController {
     private final MentorRepository mentorRepository;
     private final MenteeRepository menteeRepository;
 
-     public String uploaddirectory = System.getProperty("user.dir") + "./src/main/resources/images";
+    public String uploaddirectory = System.getProperty("user.dir") + "./src/main/resources/images";
 
     public AuthController
             (AuthService authService, AuthenticationManager authenticationManager,
-             JwtUtil jwtUtil, ComposedDetailsService composedService, AdminRepository adminRepository, MentorRepository mentorRepository, MenteeRepository menteeRepository) {
+             JwtUtil jwtUtil, ComposedDetailsService composedService, AdminRepository adminRepository, MentorRepository mentorRepository, MenteeRepository menteeRepository, MentorService mentorService) {
         this.authService = authService;
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
@@ -55,39 +58,45 @@ public class AuthController {
         this.adminRepository=adminRepository;
         this.mentorRepository = mentorRepository;
         this.menteeRepository = menteeRepository;
+
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> singup(@RequestBody SignupRequest signupRequest) {
-        if(signupRequest.getUserrole().name().equals("MENTOR")) {
-            if (authService.hasUserWithEmail(signupRequest.getEmail()))
-                return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("user already exists with email ");
-            MentorDto createdmentordto = authService.signupUser(signupRequest);
-            if (createdmentordto == null)
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Mentor not created");
-            return ResponseEntity.status(HttpStatus.CREATED).body(createdmentordto);
-        } else if (signupRequest.getUserrole().name().equals("MENTEE"))
-            if (authService.hasMenteeWithEmail(signupRequest.getEmail()))
-                return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Mentee already exists with email ");
-            MenteeDto createdmenteedto = authService.signupMentee(signupRequest);
-            if (createdmenteedto == null)
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Mentee not created");
-            return ResponseEntity.status(HttpStatus.CREATED).body(createdmenteedto);
+    public ResponseEntity<?> singup(@RequestBody SignupRequest signupRequest) throws IOException {
+         if (signupRequest.getUserrole().name().equals("MENTEE"))
+            if (authService.hasMenteeWithEmail(signupRequest.getEmail())) {
+                Map<String, String> error = new HashMap<>();
+                error.put("error", "Mentee already exists with this email");
+                return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(error);
+            }
+        MenteeDto createdmenteedto = authService.signupMentee(signupRequest);
+        if (createdmenteedto == null) {
+            Map<String, String> error = new HashMap<>();
+            error.put("error", "Mentee not created");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Mentee not created");
+          }
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdmenteedto);
 
 
     }
-
     @PostMapping(value = "/signup/mentor", consumes = { "multipart/form-data" })
     public ResponseEntity<?> singupmentor( @ModelAttribute SignupRequest signupRequest ,@RequestParam("image") MultipartFile image) throws IOException {
-        if(authService.hasUserWithEmail(signupRequest.getEmail()))
-            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Mentor already exists with email ");
+        if(authService.hasUserWithEmail(signupRequest.getEmail())){
+            Map<String, String> error = new HashMap<>();
+        error.put("error", "Mentor already exists with this email");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+        }
         String originalFilename = image.getOriginalFilename();
         Path fileNameAndPath = Paths.get(uploaddirectory,originalFilename);
         Files.write(fileNameAndPath, image.getBytes());
         signupRequest.setProfileimage(originalFilename);
         MentorDto createdmentordto = authService.signupMentor(signupRequest);
-        if (createdmentordto == null)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Mentor not created");
+        if (createdmentordto == null){
+            Map<String, String> error = new HashMap<>();
+            error.put("error", "Mentor not created ");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+        }
+
         return ResponseEntity.status(HttpStatus.CREATED).body(createdmentordto);
     }
 
@@ -96,7 +105,6 @@ public class AuthController {
     public ResponseEntity<byte[]> getImage(@PathVariable String filename) throws IOException {
         Path imagePath = Paths.get(uploaddirectory, filename);
         byte[] imageBytes = Files.readAllBytes(imagePath);
-
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.IMAGE_JPEG);
 
@@ -108,11 +116,13 @@ public class AuthController {
 
 
     @PostMapping("/Admin/login")
-    public AuthenticationResponse login(@RequestBody AuthenticationRequest authenticationRequest) {
+    public ResponseEntity<?> login(@RequestBody AuthenticationRequest authenticationRequest) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getPassword()));
         } catch (BadCredentialsException e) {
-            throw new BadCredentialsException("Incorrect username or password");
+            Map<String, String> error = new HashMap<>();
+            error.put("error", "Incorrect email or password");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
         }
         final UserDetails userDetails = composedService.loadUserByUsername(authenticationRequest.getEmail());
         Optional<Admin> optionalUser = adminRepository.findFirstByEmail(authenticationRequest.getEmail());
@@ -123,7 +133,7 @@ public class AuthController {
             authenticationResponse.setUserId(optionalUser.get().getId());
             authenticationResponse.setUserRole(optionalUser.get().getUserRole());
         }
-        return authenticationResponse;
+        return ResponseEntity.ok(authenticationResponse);
 
     }
 
@@ -131,17 +141,24 @@ public class AuthController {
     public ResponseEntity<?> loginmentor(@RequestBody AuthenticationRequest authenticationRequest) {
         Optional<Mentor> optionalMentor = mentorRepository.findFirstByEmail(authenticationRequest.getEmail());
         if (optionalMentor.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Mentor not found");
+            Map<String, String> error = new HashMap<>();
+            error.put("error", "Mentor account not found");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
         }
 
         Mentor mentor = optionalMentor.get();
         if (!"ACTIVATED".equalsIgnoreCase(mentor.getAccountstatus().toString())) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Account is deactivated. verify your email for possible reasons.");
+            Map<String, String> error = new HashMap<>();
+            error.put("error", "your account is not activated yet you can't login for now");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
         }
+        
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getPassword()));
         } catch (BadCredentialsException e) {
-            throw new BadCredentialsException("Incorrect username or password");
+            Map<String, String> error = new HashMap<>();
+            error.put("error", "Incorrect email or password");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
         }
         final UserDetails userDetails = composedService.loadUserByUsername(authenticationRequest.getEmail());
         Optional<Mentor> optionalUser = mentorRepository.findFirstByEmail(authenticationRequest.getEmail());
@@ -156,11 +173,13 @@ public class AuthController {
 
     }
     @PostMapping("/Mentee/login")
-    public AuthenticationResponse loginmentee(@RequestBody AuthenticationRequest authenticationRequest) {
+    public ResponseEntity<?>loginmentee(@RequestBody AuthenticationRequest authenticationRequest) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getPassword()));
         } catch (BadCredentialsException e) {
-            throw new BadCredentialsException("Incorrect username or password");
+            Map<String, String> error = new HashMap<>();
+            error.put("error", "Incorrect email or password");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
         }
         final UserDetails userDetails = composedService.loadUserByUsername(authenticationRequest.getEmail());
         Optional<Mentee> optionalUser = menteeRepository.findFirstByEmail(authenticationRequest.getEmail());
@@ -171,9 +190,11 @@ public class AuthController {
             authenticationResponse.setUserId(optionalUser.get().getId());
             authenticationResponse.setUserRole(optionalUser.get().getUserRole());
         }
-        return authenticationResponse;
+        return  ResponseEntity.ok(authenticationResponse);
 
     }
+
+
 
 
 

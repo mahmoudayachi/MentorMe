@@ -47,6 +47,8 @@ public class WebSecurityConfig {
                         .requestMatchers("/admin/**").permitAll()
                         .requestMatchers("/search/**").permitAll()
                         .requestMatchers("/mentorship-requests/**").permitAll()
+                        .requestMatchers("/api/chatting/**").permitAll()
+                        .requestMatchers("/api/sessions/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
@@ -62,8 +64,8 @@ public class WebSecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowedOrigins(List.of("http://localhost:8080","http://localhost:4200"));
-        configuration.setAllowedMethods(List.of("GET","POST","PUT","DELETE"));
-
+        configuration.setAllowedMethods(List.of("GET","POST","PUT","DELETE","PATCH"));
+        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 

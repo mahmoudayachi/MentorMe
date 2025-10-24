@@ -4,7 +4,7 @@ import com.example.Mentorship_app.Entities.Mentee;
 
 import java.time.LocalDateTime;
 
-public class BookingRequestDTO {
+public class BookingRequest {
     private Mentee mentee;
     private LocalDateTime scheduledAt;
 

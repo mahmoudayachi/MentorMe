@@ -30,14 +30,17 @@ public class MentorshipRequestService {
         this.mentorRepository = mentorRepository;
         this.menteeRepository = menteeRepository;
     }
-    public Optional<MentorshipRequest> Getrequest(Long id ){
-        Optional<MentorshipRequest>  allrequests = requestRepository.findByMentorId(id);
+    public List<MentorshipRequest> Getrequest(Long id ){
+        List<MentorshipRequest>  allrequests = requestRepository.findByMentorId(id);
+        return allrequests;
+    }
+
+    public List<MentorshipRequest> Getsentrequests(Long id ){
+        List<MentorshipRequest>  allrequests = requestRepository.findByMenteeId(id);
         return allrequests;
     }
 
     public MentorshipRequest sendRequest(MentorshipRequestDTO dto) throws AccessDeniedException, ChangeSetPersister.NotFoundException {
-
-
 
        Mentee menteet  = menteeRepository.findById(dto.getMenteeId()).orElseThrow();
        Mentor mentort  = mentorRepository.findById(dto.getMentorId()).orElseThrow();
@@ -49,5 +52,24 @@ public class MentorshipRequestService {
         request.setCreatedAt(LocalDateTime.now());
 
        return requestRepository.save(request);
+    }
+
+    public List<MentorshipRequest> GetAllacceptedMentees(){
+        List<MentorshipRequest> Acceptedmentees = requestRepository.searchMentee();
+        return Acceptedmentees;
+    }
+    public List<MentorshipRequest> GetrequestsentbyMentee(Long id ){
+        List<MentorshipRequest> sentrequestsbymentee= requestRepository.findByMenteeId(id);
+        return sentrequestsbymentee;
+    }
+
+    public List<MentorshipRequest> Getmentorsofmentee(Long id ){
+        List<MentorshipRequest>  mentorsofmentee = requestRepository.searchrequestsentMentee(id);
+        return  mentorsofmentee;
+    }
+
+    public List<MentorshipRequest> Checkrequest ( Long menteeid , Long mentorid){
+        List <MentorshipRequest>  requestssent = requestRepository.findByMenteeIdAndMentorId(menteeid, mentorid);
+        return requestssent;
     }
 }
